@@ -1,0 +1,101 @@
+<!-- myapp/templates/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}">
+</head>
+<body>
+    <h1>Submit Form</h1>
+    <form method="POST" action="{% url 'submit_form' %}">
+        {% csrf_token %}
+        <div class="stTextInput">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name">
+        </div>
+        <div class="stTextInput">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email">
+        </div>
+        <div class="stTextInput">
+            <label for="member_org">Member Organization (If None Leave Blank)</label>
+            <input type="text" id="member_org" name="member_org">
+        </div>
+        <div class="stSelectbox">
+            <label for="selected_year">Year</label>
+            <select id="selected_year" name="selected_year">
+                {% for year in years %}
+                    <option value="{{ year }}">{{ year }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="stSelectbox">
+            <label for="legislation_type">Type</label>
+            <select id="legislation_type" name="legislation_type">
+                <option value="Florida Bills">Florida Bills</option>
+                <option value="Federal Bills">Federal Bills</option>
+            </select>
+        </div>
+        <div id="federal_details" style="display:none;">
+            <div class="stSelectbox">
+                <label for="session">Congress Session Number</label>
+                <select id="session" name="session">
+                    {% for session in sessions %}
+                        <option value="{{ session }}">{{ session }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="stSelectbox">
+                <label for="federal_bill_type">Bill Prefix</label>
+                <select id="federal_bill_type" name="federal_bill_type">
+                    <option value="HR">HR</option>
+                    <option value="S">S</option>
+                    <option value="H.Res">H.Res</option>
+                    <option value="S.Res">S.Res</option>
+                    <option value="H.J.Res">H.J.Res</option>
+                    <option value="S.J.Res">S.J.Res</option>
+                    <option value="H.Con.Res">H.Con.Res</option>
+                    <option value="S.Con.Res">S.Con.Res</option>
+                </select>
+            </div>
+        </div>
+        <div id="florida_details" class="stSelectbox">
+            <label for="bill_type">Bill Prefix</label>
+            <select id="bill_type" name="bill_type">
+                <option value="HB">HB</option>
+                <option value="SB">SB</option>
+            </select>
+        </div>
+        <div class="stTextInput">
+            <label for="bill_number">Bill Number</label>
+            <input type="text" id="bill_number" name="bill_number">
+        </div>
+        <div class="stSelectbox">
+            <label for="support">Organization’s Position</label>
+            <select id="support" name="support">
+                <option value="N/A">N/A</option>
+                <option value="Support">Support</option>
+                <option value="Oppose">Oppose</option>
+            </select>
+        </div>
+        <button type="submit" class="stButton">SUBMIT</button>
+    </form>
+
+    <script>
+        document.getElementById('legislation_type').addEventListener('change', function () {
+            var federalDetails = document.getElementById('federal_details');
+            var floridaDetails = document.getElementById('florida_details');
+            if (this.value == 'Federal Bills') {
+                federalDetails.style.display = 'block';
+                floridaDetails.style.display = 'none';
+            } else {
+                federalDetails.style.display = 'none';
+                floridaDetails.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
