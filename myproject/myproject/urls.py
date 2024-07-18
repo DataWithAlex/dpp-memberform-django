@@ -17,11 +17,12 @@ Including another URLconf
 # myproject/urls.py
 from django.contrib import admin
 from django.urls import path
-from myapp import views
+from myapp.views import home, submit_form
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),  # Update the view name here
-    path('submit/', views.submit_form, name='submit_form'),  # Add the named URL pattern for form submission
+    path('', home, name='home'),
+    path('submit/', submit_form, name='submit_form'),
 ]
+
 
